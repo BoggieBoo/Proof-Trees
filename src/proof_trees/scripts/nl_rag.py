@@ -8,12 +8,11 @@ embed_path = 'data/embeddings/basic_nl_embeddings.pt'
 
 with open(forml4_path, 'r') as file:
     data = json.load(file)
-nl_embeddings = torch.load(embed_path)
+nl_embeddings = torch.load(embed_path, map_location=torch.device('cpu'))
 
 model = SentenceTransformer('paraphrase-MPNet-base-v2')
 
 def nl_rag(query_statement):
-    query_statement = "This is the statement"
     query_embedding = model.encode(query_statement, convert_to_tensor=True)
 
     cosine_similarities = F.cosine_similarity(query_embedding, nl_embeddings)
@@ -21,10 +20,11 @@ def nl_rag(query_statement):
     for i, v in enumerate(top_5):
         print(i + 1, data[v]['nl_problem'])
         print()
+    return [(data[v]['nl_problem'], data[v]['formal']) for v in top_5]
 
 if __name__ == "__main__":
     statement = 'Actual: If a and b are even integers, then a + b is also even.'
     print()
     print('Actual:', statement)
     print()
-    nl_rag(statement)
+    print(nl_rag(statement))
