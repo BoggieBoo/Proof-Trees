@@ -13,4 +13,4 @@ nl_proofs = [theorem['nl_problem'] for theorem in data]
 
 model = SentenceTransformer('paraphrase-MPNet-base-v2')
 nl_embeddings = model.encode(nl_proofs, convert_to_tensor=True)
-torch.save(nl_embeddings, embed_pat
+torch.save(nl_embeddings, embed_path)
