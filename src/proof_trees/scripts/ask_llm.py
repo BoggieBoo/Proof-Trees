@@ -1,12 +1,15 @@
 from lean_compile import lean_compile
 from nl_rag import nl_rag
 from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # index = 41 <- zero element kernel theorem
 
 def ask_llm(statement):
-    client = OpenAI(api_key='sk-32g4iVVXfcUcLKNLpsTSG7SpgHE0CsWjrbnv7rnnaqT3BlbkFJa3l7JCjuz4hAJGiEErZhj82FYufDqQdycFldWzWxEA')
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     prompt = (
         f"""
         Here are some examples before we start:
